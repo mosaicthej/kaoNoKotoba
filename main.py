@@ -44,47 +44,39 @@ else:
     output_dir = 'out'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-if args.output:
-    output_name = args.output
-else:
-    output_name = input_path.split('.')[0] + '_kotoba.png'
+if args.output: output_name = args.output
+else: output_name = input_path.split('.')[0] + '_kotoba.png'
 output_path = os.path.join(output_dir, output_name)
 
-if args.width:
-    width = int(args.width)
-else:
-    width = 0
-if args.height:
-    height = int(args.height)
-else:
-    height = 0
-if args.corpus: # this is a path to a file which each line is a phrase
-    corpus_path = args.corpus
-else:
-    corpus_path = None
-if args.color:
-    use_color = args.color=='true'
-if args.bs:
-    block_size = int(args.bs)
-else:
-    block_size = 4
+if args.width: width = int(args.width)
+else: width = 0
+
+if args.height: height = int(args.height)
+else: height = 0
+
+# this is a path to a file which each line is a phrase
+if args.corpus: corpus_path = args.corpus
+else: corpus_path = None
+
+if args.color: use_color = args.color=='true'
+
+if args.bs: block_size = int(args.bs)
+else: block_size = 4
+
 if args.bgalpha: bg_alpha = float(args.bgalpha)/100
 else: bg_alpha = 0.45
 
 # get the image
 image = Image.open(input_path)
 # resize the image
-if width == 0:
-    width = image.size[0]
-if height == 0:
-    height = image.size[1]
+if width == 0: width = image.size[0]
+if height == 0: height = image.size[1]
 image = image.resize((width, height))
-if use_color:
-    # convert the image to RGB
-    image = image.convert('RGB')
-else:
-    # convert the image to grayscale
-    image = image.convert('L')
+
+# convert the image to RGB or grayscale
+if use_color: image = image.convert('RGB')
+else: image = image.convert('L')
+
 # convert the image to numpy array
 image = np.array(image)
 
