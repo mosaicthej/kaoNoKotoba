@@ -32,6 +32,7 @@ parser.add_argument('--height', help='height of the output image')  # if not set
 parser.add_argument('--corpus', help='corpus to use') # if not set, use '言葉'
 parser.add_argument('--color', help='whether to use color') # if not set, use 'false'
 parser.add_argument('--bs', help='block size') # if not set, use 4
+parser.add_argument('--bgalpha', help='background alpha; input 10 for 10%') # if not set, use 0.45
 args = parser.parse_args()
 
 # get the arguments
@@ -67,6 +68,8 @@ if args.bs:
     block_size = int(args.bs)
 else:
     block_size = 4
+if args.bgalpha: bg_alpha = float(args.bgalpha)/100
+else: bg_alpha = 0.45
 
 # get the image
 image = Image.open(input_path)
@@ -155,6 +158,9 @@ with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
             # write to html file, color needs to be in hex
             if use_color:
                 f.write('<font color="#%02x%02x%02x">' % tuple(char_color))
+                # for each character wriiten, also want its background to be the same color but lighter
+                # set the background color to be alpha specified above (default 0.45)
+                f.write('<span style="background-color: rgba(%d, %d, %d, %f)">' % tuple(char_color + [bg_alpha]))
             else:
                 f.write('<font color="#%02x%02x%02x">' % (char_color, char_color, char_color))
             f.write(char[char_idx])
