@@ -113,6 +113,8 @@ done_word = False
 # also, add the output to a text html (to keep color) file
 # file must be in utf-8
 with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
+    # tell browser to decode in utf-8
+    f.write('<meta charset="UTF-8">\n')
     f.write('<html>\n')
     f.write('<body>\n')
     # set it to not wrap
