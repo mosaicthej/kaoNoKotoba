@@ -122,6 +122,8 @@ with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
     # f.write('<b><strong>')
     # also, make sure the font is heavy, like, very heavy
     f.write('<style>body {font-weight: 1000;}</style>\n')
+    # also, make the characters tightly packed and line height small
+    f.write('<style>body {letter-spacing: -1px; line-height: -1;}</style>\n')
     # generate new image
     if use_color:
         new_image = Image.new('RGB', (width, height), (255, 255, 255))
