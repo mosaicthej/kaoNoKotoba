@@ -28,7 +28,7 @@ parser.add_argument('--outdir', help='output directory') # if not set, same as i
 parser.add_argument('--output', help='output image path')   # if not set, <input>_kotoba.png
 parser.add_argument('--width', help='width of the output image') # if not set, same as input
 parser.add_argument('--height', help='height of the output image')  # if not set, same as input
-parser.add_argument('--char', help='string to render the image') # if not set, use '言葉'
+parser.add_argument('--corpus', help='corpus to use') # if not set, use '言葉'
 parser.add_argument('--bs', help='block size') # if not set, use 4
 args = parser.parse_args()
 
@@ -55,10 +55,10 @@ if args.height:
     height = int(args.height)
 else:
     height = 0
-if args.char:
-    char = args.char
+if args.corpus: # this is a path to a file which each line is a phrase
+    corpus_path = args.corpus
 else:
-    char = '言葉'
+    corpus_path = None
 if args.bs:
     block_size = int(args.bs)
 else:
@@ -87,6 +87,13 @@ for i in range(block_height):
 
 # The characters from the string are always as string (in same order),
 # the color of each character, will depending on the block they are representing.
+
+if corpus_path:
+    with open(corpus_path, 'r', encoding='utf-8') as f:
+        kotaba = set(f.read().splitlines())
+else:
+    kotaba = {'言葉'}
+done_word = False
 
 # also, add the output to a text html (to keep color) file
 # file must be in utf-8
