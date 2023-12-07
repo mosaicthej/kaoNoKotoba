@@ -29,6 +29,7 @@ parser.add_argument('--output', help='output image path')   # if not set, <input
 parser.add_argument('--width', help='width of the output image') # if not set, same as input
 parser.add_argument('--height', help='height of the output image')  # if not set, same as input
 parser.add_argument('--char', help='string to render the image') # if not set, use '言葉'
+parser.add_argument('--bs', help='block size') # if not set, use 4
 args = parser.parse_args()
 
 # get the arguments
@@ -58,6 +59,10 @@ if args.char:
     char = args.char
 else:
     char = '言葉'
+if args.bs:
+    block_size = int(args.bs)
+else:
+    block_size = 4
 
 # get the image
 image = Image.open(input_path)
@@ -73,7 +78,6 @@ image = image.convert('L')
 image = np.array(image)
 
 # get the average color of each block
-block_size = 4
 block_width = math.floor(width / block_size)
 block_height = math.floor(height / block_size)
 block_avg_color = np.zeros((block_height, block_width))
