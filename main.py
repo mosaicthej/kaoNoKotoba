@@ -20,6 +20,7 @@ import numpy as np
 import argparse
 import math
 import os
+import random
 
 # parse the arguments
 parser = argparse.ArgumentParser()
@@ -103,11 +104,18 @@ with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
     # generate new image
     new_image = Image.new('L', (width, height), 255)
     # draw the image
+
+    char = random.choice(tuple(kotaba))
     for i in range(block_height):
+        char_idx = -1
         for j in range(block_width):
-            char_idx = j % len(char)
-            char_color = int(block_avg_color[i][j])
-            char_image = Image.new('L', (block_size, block_size), char_color)
+            if done_word: # when word is done, choose a new word
+                char = random.choice(tuple(kotaba))
+                done_word = False
+                char_idx = -1
+            char_idx += 1
+            if char_idx == len(char) - 1:
+                done_word = True
             new_image.paste(char_image, (j*block_size, i*block_size))
 
             # write to html file, color needs to be in hex
