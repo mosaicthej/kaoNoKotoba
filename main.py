@@ -24,6 +24,7 @@ import os
 # parse the arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--input', help='input image path')
+parser.add_argument('--outdir', help='output directory') # if not set, same as input
 parser.add_argument('--output', help='output image path')   # if not set, <input>_kotoba.png
 parser.add_argument('--width', help='width of the output image') # if not set, same as input
 parser.add_argument('--height', help='height of the output image')  # if not set, same as input
@@ -32,10 +33,19 @@ args = parser.parse_args()
 
 # get the arguments
 input_path = args.input 
-if args.output:
-    output_path = args.output
+if args.outdir:
+    output_dir = args.outdir
 else:
-    output_path = input_path.split('.')[0] + '_kotoba.png'
+    # if no `out` directory, make one
+    output_dir = 'out'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+if args.output:
+    output_name = args.output
+else:
+    output_name = input_path.split('.')[0] + '_kotoba.png'
+output_path = os.path.join(output_dir, output_name)
+
 if args.width:
     width = int(args.width)
 else:
