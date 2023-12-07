@@ -52,6 +52,10 @@ else:
 # get the image
 image = Image.open(input_path)
 # resize the image
+if width == 0:
+    width = image.size[0]
+if height == 0:
+    height = image.size[1]
 image = image.resize((width, height))
 # convert the image to grayscale
 image = image.convert('L')
@@ -85,5 +89,3 @@ new_image.save(output_path)
 
 # open the image
 os.system('open ' + output_path)
-
-
