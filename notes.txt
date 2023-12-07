@@ -1,0 +1,17 @@
+receive an image, render the image using string of the choice.
+
+MVP plan:
+
+1. receive image
+    image is just in path;
+2. parse image
+    use PIL to parse image; 
+    Make it 2D array of pixels.
+3. Analyze the image
+    group the image into blocks of pixels, since characters are bigger than pixels.
+    and calculate the average color of each block.
+4. Render the image
+    use the average color of each block to choose a string to represent the block.
+    and render the image.
+    each block is a character whose color is the average color of the block.
+
