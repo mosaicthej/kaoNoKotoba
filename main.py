@@ -74,15 +74,29 @@ for i in range(block_height):
 # The characters from the string are always as string (in same order),
 # the color of each character, will depending on the block they are representing.
 
-# generate new image
-new_image = Image.new('L', (width, height), 255)
-# draw the image
-for i in range(block_height):
-    for j in range(block_width):
-        char_idx = j % len(char)
-        char_color = int(block_avg_color[i][j])
-        char_image = Image.new('L', (block_size, block_size), char_color)
-        new_image.paste(char_image, (j*block_size, i*block_size))
+# also, add the output to a text html (to keep color) file
+# file must be in utf-8
+with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
+    f.write('<html>\n')
+    f.write('<body>\n')
+    # generate new image
+    new_image = Image.new('L', (width, height), 255)
+    # draw the image
+    for i in range(block_height):
+        for j in range(block_width):
+            char_idx = j % len(char)
+            char_color = int(block_avg_color[i][j])
+            char_image = Image.new('L', (block_size, block_size), char_color)
+            new_image.paste(char_image, (j*block_size, i*block_size))
+
+            # write to html file, color needs to be in hex
+            f.write('<font color="#%02x%02x%02x">' % (char_color, char_color, char_color))
+            f.write(char[char_idx])
+            f.write('</font>')
+        f.write('<br>\n')
+    f.write('</body>\n')
+    f.write('</html>\n')
+
 
 # save the image
 new_image.save(output_path)
