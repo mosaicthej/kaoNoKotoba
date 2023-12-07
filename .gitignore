@@ -1,5 +1,5 @@
 # no output html and images
-*.html
+# *.html
 *.png
 *.jpg
 *.jpeg
