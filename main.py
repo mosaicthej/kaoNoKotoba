@@ -115,6 +115,11 @@ done_word = False
 with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
     f.write('<html>\n')
     f.write('<body>\n')
+    # set it to not wrap
+    f.write('<p style="white-space: nowrap">\n')
+    # f.write('<b><strong>')
+    # also, make sure the font is heavy, like, very heavy
+    f.write('<style>body {font-weight: 1000;}</style>\n')
     # generate new image
     if use_color:
         new_image = Image.new('RGB', (width, height), (255, 255, 255))
@@ -151,6 +156,8 @@ with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
             f.write(char[char_idx])
             f.write('</font>')
         f.write('<br>\n')
+    # f.write('</strong></b>\n')
+    f.write('</p>\n')
     f.write('</body>\n')
     f.write('</html>\n')
 
