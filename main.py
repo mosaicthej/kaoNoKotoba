@@ -106,6 +106,9 @@ else:
     kotaba = {'言葉'}
 done_word = False
 
+# kotaba = {s+'　' for s in kotaba} # add a space after each word
+# note that, all characters should be full-width, so the block size is consistent
+
 # also, add the output to a text html (to keep color) file
 # file must be in utf-8
 with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
@@ -117,6 +120,8 @@ with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
     f.write('<p style="white-space: nowrap">\n')
     # f.write('<b><strong>')
     # also, make sure the font is heavy, like, very heavy
+    # want a very very dense font face
+    f.write('<style>body {font-family: "Hiragino Sans GB W3", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "WenQuanYi Micro Hei", "sans-serif";}</style>\n')
     f.write('<style>body {font-weight: 1000;}</style>\n')
     # also, make the characters tightly packed and line height small
     f.write('<style>body {letter-spacing: -1px; line-height: -1;}</style>\n')

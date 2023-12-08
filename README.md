@@ -16,3 +16,6 @@ To save the picture, use `browser->dev tools->mobile view->screenshot`
 ## Le Big Mac
 
 ![Le Big Mac](mac_kotoba.png)
+
+english (although english fonts are so sparse so not looking as nice)
+![Big Mac EN](mac-en_kotoba.png)
