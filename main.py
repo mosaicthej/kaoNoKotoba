@@ -1,3 +1,4 @@
+#!/usr/local/anaconda3/bin/python
 # receive an image, render the image using string of the choice.
 
 # MVP plan:
