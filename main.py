@@ -129,6 +129,8 @@ with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
     char = random.choice(tuple(kotaba))
     for i in range(block_height):
         char_idx = -1
+        html_buffer = ''
+        prev_char_color = None  # keep track of the previous color, if same as current, don't write html tag again.
         for j in range(block_width):
             if done_word: # when word is done, choose a new word
                 char = random.choice(tuple(kotaba))
@@ -147,16 +149,25 @@ with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
                 char_image = Image.new('L', (block_size, block_size), char_color)
             new_image.paste(char_image, (j*block_size, i*block_size))
 
-            # write to html file, color needs to be in hex
+            # check if the color is the same as the previous one, if so, don't write html tag again
+            if prev_char_color is None: prev_char_color = char_color
+            if prev_char_color == char_color and j != block_width - 1: # also flush if last block of the row
+                html_buffer += char[char_idx]  # write to buffer
+                continue
+
+            # in this case, new char is different from everything in the buffer
+            # flush the buffer to html
             if use_color:
-                f.write('<font color="#%02x%02x%02x">' % tuple(char_color))
+                f.write('<font color="#%02x%02x%02x">' % tuple(prev_char_color))
                 # for each character wriiten, also want its background to be the same color but lighter
                 # set the background color to be alpha specified above (default 0.45)
-                f.write('<span style="background-color: rgba(%d, %d, %d, %f)">' % tuple(char_color + [bg_alpha]))
+                f.write('<span style="background-color: rgba(%d, %d, %d, %f)">' % tuple(prev_char_color + [bg_alpha]))
             else:
-                f.write('<font color="#%02x%02x%02x">' % (char_color, char_color, char_color))
-            f.write(char[char_idx])
+                f.write('<font color="#%02x%02x%02x">' % (prev_char_color, prev_char_color, prev_char_color))
+            f.write(html_buffer)    # flush buffer to html
             f.write('</font>')
+            html_buffer = char[char_idx]
+            prev_char_color = char_color
         f.write('<br>\n')
     # f.write('</strong></b>\n')
     f.write('</p>\n')
