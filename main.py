@@ -28,6 +28,20 @@ import math
 import os
 import random
 
+def half_to_full_width(s):
+    """
+    Convert half-width characters in the string to full-width characters.
+    """
+    full_width_str = ""
+    for char in s:
+        if char == ' ':
+            full_width_str += '\u3000'  # 全角空格
+        elif 0x21 <= ord(char) <= 0x7E:
+            full_width_str += chr(ord(char) + 0xFEE0)
+        else:
+            full_width_str += char
+    return full_width_str
+
 # parse the arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--input', help='input image path')
@@ -109,6 +123,9 @@ if corpus_path:
         kotoba = set(f.read().splitlines())
 else:
     kotoba = {'言葉'}
+fw_kotoba = {half_to_full_width(s) for s in kotoba}
+kotaba = fw_kotoba
+
 done_word = False
 
 # kotoba = {s+'　' for s in kotoba} # add a space after each word
