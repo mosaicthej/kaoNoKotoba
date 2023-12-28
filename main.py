@@ -34,6 +34,9 @@ def half_to_full_width(s):
     """
     full_width_str = ""
     for char in s:
+        # ASCII字符（半角字符）的编码范围是0x0021-0x007E
+        # 全角字符的编码范围是0xFF01-0xFF5E
+        # 空格字符需要单独处理
         if char == ' ':
             full_width_str += '\u3000'  # 全角空格
         elif 0x21 <= ord(char) <= 0x7E:
