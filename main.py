@@ -106,12 +106,12 @@ else:
 
 if corpus_path:
     with open(corpus_path, 'r', encoding='utf-8') as f:
-        kotaba = set(f.read().splitlines())
+        kotoba = set(f.read().splitlines())
 else:
-    kotaba = {'言葉'}
+    kotoba = {'言葉'}
 done_word = False
 
-# kotaba = {s+'　' for s in kotaba} # add a space after each word
+# kotoba = {s+'　' for s in kotoba} # add a space after each word
 # note that, all characters should be full-width, so the block size is consistent
 
 # also, add the output to a text html (to keep color) file
@@ -137,14 +137,14 @@ with open(output_path.split('.')[0] + '.html', 'w', encoding='utf-8') as f:
         new_image = Image.new('L', (width, height), 255)
     # draw the image
 
-    char = random.choice(tuple(kotaba))
+    char = random.choice(tuple(kotoba))
     for i in range(block_height):
         char_idx = -1
         html_buffer = ''
         prev_char_color = None  # keep track of the previous color, if same as current, don't write html tag again.
         for j in range(block_width):
             if done_word: # when word is done, choose a new word
-                char = random.choice(tuple(kotaba))
+                char = random.choice(tuple(kotoba))
                 done_word = False
                 char_idx = -1
             char_idx += 1
